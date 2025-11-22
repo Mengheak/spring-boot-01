@@ -57,7 +57,6 @@ public class UserService {
         existingUser.setAge(payload.getAge());
         existingUser.setRole(payload.getRole());
         existingUser.setEmail(payload.getEmail());
-        existingUser.setUpdatedAt(LocalDateTime.now());
 
         User updatedUser = userRepository.save(existingUser);
 
