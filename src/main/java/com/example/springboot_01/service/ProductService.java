@@ -62,7 +62,7 @@ public class ProductService {
         return  ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<Product>("success", "updated product successfully", updatedProduct));
 
     }
-    public ResponseEntity<BaseResponseModel> deleteProduct(@PathVariable("id") Long id){
+    public ResponseEntity<BaseResponseModel> deleteProduct(Long id){
         Optional<Product> fetchedProduct = productRepository.findById(id);
         if(fetchedProduct.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponseModel("failed", "product with id = " + id + " is not found"));
@@ -73,8 +73,8 @@ public class ProductService {
     }
 
 
-    public ResponseEntity<BaseResponseModel> filterProduct(@Param("query") String query){
-       List<Product> fetchedProduct = productRepository.filterProduct(query);
+    public ResponseEntity<BaseResponseModel> filterProduct(String query, Double minPrice, Double maxPrice){
+       List<Product> fetchedProduct = productRepository.filterProduct(query, minPrice, maxPrice);
        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<List<Product>>("success", "successfully get products", fetchedProduct));
     }
 }

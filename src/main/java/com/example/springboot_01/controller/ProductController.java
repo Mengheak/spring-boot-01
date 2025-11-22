@@ -38,7 +38,11 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<BaseResponseModel> filterProduct(@Param("query")  String query){
-        return productService.filterProduct(query);
+    public ResponseEntity<BaseResponseModel> filterProduct(
+            @RequestParam(name = "query", required = false)  String query,
+            @RequestParam(name = "minPrice", required = false) Double minPrice,
+            @RequestParam(name = "maxPrice", required = false) Double maxPrice
+    ){
+        return productService.filterProduct(query, minPrice, maxPrice);
     }
 }
