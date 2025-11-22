@@ -17,7 +17,8 @@ public class User {
     private String name;
     private Integer age;
     private String role;
-
+    @Column(name = "password", nullable = false)
+    private String password;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")

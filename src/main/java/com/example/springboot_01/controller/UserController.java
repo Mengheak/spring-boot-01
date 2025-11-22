@@ -1,9 +1,10 @@
 package com.example.springboot_01.controller;
 
+import com.example.springboot_01.dto.UserResponseDto;
 import com.example.springboot_01.entity.User;
 import com.example.springboot_01.model.ApiResponseModel;
 import com.example.springboot_01.model.BaseResponseModel;
-import com.example.springboot_01.model.UserModel;
+import com.example.springboot_01.dto.UserDto;
 import com.example.springboot_01.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +20,19 @@ public class UserController {
 
 
     @GetMapping
-    public ResponseEntity<ApiResponseModel<List<User>>> GetUser () {
+    public ResponseEntity<ApiResponseModel<List<UserResponseDto>>> GetUser () {
        return userService.listUsers();
     }
 
 
     @PostMapping
-    public ResponseEntity<BaseResponseModel> createUser (@RequestBody UserModel user){
+    public ResponseEntity<BaseResponseModel> createUser (@RequestBody UserDto user){
         return userService.createUser(user);
      }
 
 
      @PutMapping("/{user_id}")
-    public ResponseEntity<ApiResponseModel<User>> updateUser(@PathVariable("user_id")  Long userId, @RequestBody UserModel payload){
+    public ResponseEntity<ApiResponseModel<User>> updateUser(@PathVariable("user_id")  Long userId, @RequestBody UserDto payload){
         return userService.updateUser(userId, payload);
      }
 

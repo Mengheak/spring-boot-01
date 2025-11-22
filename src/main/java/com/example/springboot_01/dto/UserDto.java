@@ -1,4 +1,4 @@
-package com.example.springboot_01.model;
+package com.example.springboot_01.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserModel {
-    private Long id;
+public class UserDto {
     private String name;
     private Integer age;
+    private String password;
     private String email;
     private  String role = "USER";
 }
