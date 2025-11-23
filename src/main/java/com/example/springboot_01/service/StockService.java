@@ -2,6 +2,7 @@ package com.example.springboot_01.service;
 
 import com.example.springboot_01.entity.Product;
 import com.example.springboot_01.entity.Stock;
+import com.example.springboot_01.mapper.StockMapper;
 import com.example.springboot_01.model.ApiResponseModel;
 import com.example.springboot_01.model.BaseResponseModel;
 import com.example.springboot_01.dto.stock.StockDto;
@@ -25,16 +26,18 @@ public class StockService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private StockMapper stockMapper;
     public ResponseEntity<BaseResponseModel> listStock() {
         List<Stock> stocks = stockRepository.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<List<Stock>>("success", "get stocks successfully", stocks));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<>("success", "get stocks successfully", stockMapper.toDtoList(stocks)));
     }
 
     public ResponseEntity<BaseResponseModel> getOneStock(Long id) {
         Optional<Stock> fetchedStock = stockRepository.findById(id);
         if(fetchedStock.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponseModel("failed", "stock is not found"));
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<Optional<Stock>>("success", "get one stock successfully", fetchedStock));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<>("success", "get one stock successfully", stockMapper.toDto(fetchedStock.get())));
     }
 
     public ResponseEntity<BaseResponseModel> createStock(StockDto payload) {
@@ -45,18 +48,13 @@ public class StockService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponseModel("failed", "product id has not been found"));
         }
         Optional<Stock> existingStock = stockRepository.findByProductId(payload.getProductId());
-        Stock newStock = new Stock();
         if(existingStock.isPresent()){
             Stock stock = existingStock.get();
             stock.setQuantity(stock.getQuantity() + payload.getQuantity());
-            stock.setUpdatedAt(LocalDateTime.now());
             stockRepository.save(stock);
         }else{
-            newStock.setProductId(payload.getProductId());
-            newStock.setQuantity(payload.getQuantity());
-            newStock.setCreatedAt(LocalDateTime.now());
-            newStock.setUpdatedAt(LocalDateTime.now());
-            stockRepository.save(newStock);
+            Stock stockEnt  = stockMapper.toEntity(payload);
+            stockRepository.save(stockEnt);
         }
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseModel("success", "Create stock successfully"));
     }

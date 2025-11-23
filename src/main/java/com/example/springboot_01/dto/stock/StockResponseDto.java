@@ -2,12 +2,14 @@ package com.example.springboot_01.dto.stock;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@JsonPropertyOrder({"stock_id", "product_id","quantity", "created_at", "updated_at"})
 public class StockResponseDto {
     @JsonProperty("stock_id")
     private Long id;
