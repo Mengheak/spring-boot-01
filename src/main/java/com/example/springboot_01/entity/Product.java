@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,6 +22,15 @@ public class Product {
     @Column(name = "updated_at")
     private  LocalDateTime updatedAt;
 
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Stock> stocks;
+
+    @Transient
+    public Long getTotalStock() {
+        if(stocks == null) return 0L;
+        return stocks.stream().mapToLong(stock -> stock.getQuantity()).sum();
+    }
 
     @PrePersist
     private void prePersist(){
