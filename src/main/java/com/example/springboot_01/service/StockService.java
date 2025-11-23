@@ -45,7 +45,7 @@ public class StockService {
 
         Optional<Product> existingProduct = productRepository.findById(payload.getProductId());
         if(existingProduct.isEmpty()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponseModel("failed", "product id has not been found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponseModel("failed", "product id has not been found"));
         }
         Optional<Stock> existingStock = stockRepository.findByProductId(payload.getProductId());
         if(existingStock.isPresent()){
@@ -53,7 +53,7 @@ public class StockService {
             stock.setQuantity(stock.getQuantity() + payload.getQuantity());
             stockRepository.save(stock);
         }else{
-            Stock stockEnt  = stockMapper.toEntity(payload);
+            Stock stockEnt  = stockMapper.toEntity(payload, existingProduct.get());
             stockRepository.save(stockEnt);
         }
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseModel("success", "Create stock successfully"));
@@ -61,13 +61,19 @@ public class StockService {
 
 
     public ResponseEntity<BaseResponseModel> updateStock(Long id, StockDto payload){
+
+        Optional<Product> existingProduct = productRepository.findById(payload.getProductId());
+        if(existingProduct.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponseModel("failed", "product id has not been found"));
+        }
+
         Optional<Stock> fetchedStock = stockRepository.findById(id);
         if(fetchedStock.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponseModel("failed", "Stock has not been found"));
         Stock existing = fetchedStock.get();
         existing.setUpdatedAt(LocalDateTime.now());
         existing.setQuantity(payload.getQuantity());
-        existing.setProductId(payload.getProductId());
+        existing.setProduct(existingProduct.get());
 
         Stock updatedStock = stockRepository.save(existing);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<Stock>("success", "update stock successfully", updatedStock));
