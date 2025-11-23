@@ -55,6 +55,9 @@ public class ProductService {
         if(fetchedProduct.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponseModel("failed", "product with id = " + id + " is not found"));
         }
+        if(productRepository.existsByProductName(payload.getProductName())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new BaseResponseModel("failed", "Product with this name is already exists"));
+        }
         Product existing = fetchedProduct.get();
         existing.setProductName(payload.getProductName());
         existing.setPrice(payload.getPrice());
