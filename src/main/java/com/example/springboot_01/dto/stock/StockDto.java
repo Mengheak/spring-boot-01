@@ -12,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StockDto {
     private Long productId;
-    private Long quantity;
+    private Integer quantity;
 }

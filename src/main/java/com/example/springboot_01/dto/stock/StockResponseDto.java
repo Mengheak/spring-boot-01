@@ -3,7 +3,6 @@ package com.example.springboot_01.dto.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ public class StockResponseDto {
 
     @JsonProperty("product_id")
     private Long productId;
-    private Long quantity;
+    private Integer quantity;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
