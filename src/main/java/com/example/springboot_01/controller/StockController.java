@@ -1,7 +1,7 @@
 package com.example.springboot_01.controller;
 
 import com.example.springboot_01.model.BaseResponseModel;
-import com.example.springboot_01.model.StockModel;
+import com.example.springboot_01.dto.stock.StockDto;
 import com.example.springboot_01.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +23,12 @@ public class StockController {
         return stockService.getOneStock(id);
     }
     @PostMapping
-    public ResponseEntity<BaseResponseModel> createStock(@RequestBody StockModel stock){
+    public ResponseEntity<BaseResponseModel> createStock(@RequestBody StockDto stock){
         return stockService.createStock(stock);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BaseResponseModel> updateStock(@PathVariable Long id, @RequestBody StockModel payload){
+    public ResponseEntity<BaseResponseModel> updateStock(@PathVariable Long id, @RequestBody StockDto payload){
         return stockService.updateStock(id, payload);
     }
 

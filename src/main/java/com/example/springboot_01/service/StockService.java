@@ -4,7 +4,7 @@ import com.example.springboot_01.entity.Product;
 import com.example.springboot_01.entity.Stock;
 import com.example.springboot_01.model.ApiResponseModel;
 import com.example.springboot_01.model.BaseResponseModel;
-import com.example.springboot_01.model.StockModel;
+import com.example.springboot_01.dto.stock.StockDto;
 import com.example.springboot_01.repository.ProductRepository;
 import com.example.springboot_01.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class StockService {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<Optional<Stock>>("success", "get one stock successfully", fetchedStock));
     }
 
-    public ResponseEntity<BaseResponseModel> createStock(StockModel payload) {
+    public ResponseEntity<BaseResponseModel> createStock(StockDto payload) {
 
 
         Optional<Product> existingProduct = productRepository.findById(payload.getProductId());
@@ -62,7 +62,7 @@ public class StockService {
     }
 
 
-    public ResponseEntity<BaseResponseModel> updateStock(Long id, StockModel payload){
+    public ResponseEntity<BaseResponseModel> updateStock(Long id, StockDto payload){
         Optional<Stock> fetchedStock = stockRepository.findById(id);
         if(fetchedStock.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponseModel("failed", "Stock has not been found"));
