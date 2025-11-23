@@ -2,10 +2,9 @@ package com.example.springboot_01.controller;
 
 
 import com.example.springboot_01.model.BaseResponseModel;
-import com.example.springboot_01.model.ProductModel;
+import com.example.springboot_01.dto.product.ProductDto;
 import com.example.springboot_01.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +23,12 @@ public class ProductController {
         return productService.getOneProduct(id);
     }
     @PostMapping
-    public ResponseEntity<BaseResponseModel> createProduct(@RequestBody ProductModel payload){
+    public ResponseEntity<BaseResponseModel> createProduct(@RequestBody ProductDto payload){
         return productService.createProduct(payload);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BaseResponseModel> updateProduct(@PathVariable("id") Long id, @RequestBody ProductModel payload){
+    public ResponseEntity<BaseResponseModel> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDto payload){
         return productService.updateProduct(id, payload);
     }
     @DeleteMapping("/{id}")

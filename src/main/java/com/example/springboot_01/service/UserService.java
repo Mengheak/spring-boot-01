@@ -28,8 +28,7 @@ public class UserService {
 
     public ResponseEntity<ApiResponseModel<List<UserResponseDto>>> listUsers () {
        List<User> userData = userRepository.findAll();
-       List<UserResponseDto> dtos = mapper.toDtoList(userData);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<>("success", "get user successfully", dtos));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseModel<>("success", "get user successfully", mapper.toDtoList(userData)));
     }
 
 
