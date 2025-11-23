@@ -34,7 +34,8 @@ public class UserMapper {
         dto.setAge(entity.getAge());
         dto.setEmail(entity.getEmail());
         dto.setName(entity.getName());
-
+        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setUpdatedAt(entity.getUpdatedAt());
         return dto;
     }
 

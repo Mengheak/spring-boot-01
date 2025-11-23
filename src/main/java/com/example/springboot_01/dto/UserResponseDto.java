@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @JsonPropertyOrder({"user_id","username", "age", "email", "role"})
 public class UserResponseDto {
@@ -17,4 +19,10 @@ public class UserResponseDto {
     private Integer age;
     private String email;
     private String role = "USER";
+
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
 }
